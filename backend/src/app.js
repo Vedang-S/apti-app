@@ -1,9 +1,28 @@
-const express = require("express");
+import express from "express";
+import userRouter from "./routes/userRoutes.js";
+import cors from "cors";
 
 const app = express();
 
-app.get("/", (req, res) => {
-    res.send("SERVER IS RUNNING");
-})
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://apti-app.vercel.app"],
+    credentials: true,
+  })
+);
 
-module.exports = app;
+app.use(express.json());
+
+app.use((req, res, next) => {
+  console.log(`Incoming Request: ${req.method} ${req.url}`);
+  next();
+});
+
+// user routes
+app.use("/api/users", userRouter);
+
+app.get("/", (req, res) => {
+  res.send("SERVER IS RUNNING");
+});
+
+export { app };

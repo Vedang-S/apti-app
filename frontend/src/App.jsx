@@ -1,10 +1,9 @@
 import "./App.css";
+import AuthTest from "./components/AuthTest";
 
 function App() {
   return <>
-    <div className="application-body">
-        <h1 className="title">aptitude learning & practice application</h1>
-    </div>
+    <AuthTest />
   </>;
 }
 
