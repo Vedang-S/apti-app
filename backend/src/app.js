@@ -9,22 +9,21 @@ const allowedOrigins = [
   "https://apti-app.vercel.app"
 ];
 
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    
+    const isLocalhost = origin.startsWith("http://localhost");
+    const isVercel = origin.endsWith(".vercel.app");
+
+    if (isLocalhost || isVercel) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      callback(new Error('Not allowed by CORS'));
     }
   },
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
-  optionsSuccessStatus: 200
-};
-
-app.use(cors(corsOptions));
-app.options("/*splat", cors(corsOptions));
+  credentials: true
+}));
 
 app.use(express.json());
 
