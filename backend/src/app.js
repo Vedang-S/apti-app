@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 app.use("/api/users", userRouter);
 
 app.get("/", (req, res) => {
-  res.send("SERVER IS RUNNING");
+  res.status(200).send("SERVER IS RUNNING");
 });
 
 export { app };
