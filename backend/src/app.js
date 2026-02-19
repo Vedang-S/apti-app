@@ -1,12 +1,13 @@
 import express from "express";
 import userRouter from "./routes/userRoutes.js";
+import adminRouter from "./routes/adminRoutes.js";
 import cors from "cors";
 
 const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://apti-app.vercel.app"
+  "https://apti-verse.vercel.app"
 ];
 
 app.use(cors({
@@ -34,6 +35,7 @@ app.use((req, res, next) => {
 
 // user routes
 app.use("/api/users", userRouter);
+app.use("/api/admin", adminRouter);
 
 app.get("/", (req, res) => {
   res.status(200).send("SERVER IS RUNNING");
