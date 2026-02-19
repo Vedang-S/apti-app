@@ -1,3 +1,4 @@
+import { prisma } from "../lib/prisma.js";
 import { supabase } from "../lib/supabase.js";
 
 export const authMiddleware = async (req, res, next) => {
@@ -26,7 +27,7 @@ export const authMiddleware = async (req, res, next) => {
     });
 
     req.user = syncedUser;
-    
+
     next();
   } catch (error) {
     res.status(500).json({ message: "Server error during authentication" });
