@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "katex/dist/katex.min.css";
 import { InlineMath, BlockMath } from "react-katex";
+import { supabase } from "../lib/supabaseClient.js";
 
 import styles from "../styles/AddQuestion.module.css";
 
@@ -30,10 +31,27 @@ const AddQuestion = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    const token = session?.access_token;
+
+    if (!token) {
+      alert("Not logged in!");
+      return;
+    }
+
     try {
       const res = await axios.post(
         `${API_BASE_URL}/api/admin/addQuestion`,
         formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       console.log("Latest Question Added:", res.data);
       alert(`Successfully added question with ID: ${res.data.id}`);
