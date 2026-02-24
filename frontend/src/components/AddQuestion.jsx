@@ -10,19 +10,19 @@ const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 const topicData = {
   "the basics": ["number system", "HCF and LCM", "simplification", "fractions and decimals"],
-  "commercial math": ["percentage", "profit loss", "discount", "simple and compound interest"],
+  "commercial math": ["percentage", "profit & loss", "discount", "simple and compound interest"],
   "ratios and proportions": ["ratio & proportions", "partnership", "averages", "mixtures", "alligations"],
-  "time and motion": ["time and work", "pipes and cisterns", "speed and distance", "problems on train", "boats and streams"],
-  "advanced math": ["algebra (equations)", "geometry", "trigonometry", "mensurataion (2D / 3D)"],
-  "modern math": ["permutation and combination", "probability", "set theory"]
+  "time and motion": ["time and work", "pipes and cisterns", "speed and distance", "problems on trains, boats and streams"],
+  "advanced math": ["algebra (equations)", "geometry", "trigonometry", "mensuration (2D / 3D)"],
+  "modern math": ["permutations and combinations", "probability", "set theory"]
 };
 
 const AddQuestion = () => {
   const [formData, setFormData] = useState({
     examId: "",
     yearAsked: "",
-    topic: "",    
-    subtopic: "",   
+    topicId: "",    
+    subtopicId: "",   
     questionText: "",
     optionA: "",
     optionB: "",
@@ -41,9 +41,8 @@ const AddQuestion = () => {
         [name]: name === "yearAsked" ? parseInt(value) || "" : value,
       };
 
-      // Reset subtopic if topic changes
-      if (name === "topic") {
-        newState.subtopic = "";
+      if (name === "topicId") {
+        newState.subtopicId = "";
       }
 
       return newState;
@@ -110,8 +109,8 @@ const AddQuestion = () => {
             <div style={{ flex: 1 }}>
               <label className={styles.label}>Topic</label>
               <select
-                name="topic"
-                value={formData.topic}
+                name="topicId"
+                value={formData.topicId}
                 onChange={handleChange}
                 className={styles.input}
                 required
@@ -126,16 +125,16 @@ const AddQuestion = () => {
             <div style={{ flex: 1 }}>
               <label className={styles.label}>Subtopic</label>
               <select
-                name="subtopic"
-                value={formData.subtopic}
+                name="subtopicId"
+                value={formData.subtopicId}
                 onChange={handleChange}
                 className={styles.input}
-                disabled={!formData.topic}
+                disabled={!formData.topicId}
                 required
               >
                 <option value="">Select Subtopic</option>
-                {formData.topic &&
-                  topicData[formData.topic].map((st) => (
+                {formData.topicId &&
+                  topicData[formData.topicId].map((st) => (
                     <option key={st} value={st}>{st}</option>
                   ))}
               </select>
