@@ -118,7 +118,7 @@ const AddQuestion = () => {
       <div className={styles.formSection}>
         <header className={styles.header}>
           <h2 className={styles.title}>
-            Add <Question></Question>
+            Add Question
           </h2>
         </header>
 
