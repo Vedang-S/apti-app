@@ -5,7 +5,7 @@
   gap: 2.5rem;
   padding: 2.5rem;
   font-family: "Inter", sans-serif;
-  align-items: flex-start; /* Prevents stretching items to match height */
+  align-items: flex-start; 
 }
 
 /* LEFT SIDE: FORM EDITOR */
@@ -129,7 +129,7 @@
   margin-bottom: 1.5rem;
 }
 
-/* QUIZ PREVIEW UI COMPONENTS */
+/* PREVIEW COMPONENTS */
 .quizHeader {
   display: flex;
   align-items: center;
@@ -263,23 +263,4 @@
 .actionButtons {
   display: flex;
   gap: 12px;
-}
-
-/* BUTTONS IN PREVIEW */
-.previewSubmitBtn {
-  background-color: #3b82f6;
-  color: white;
-  padding: 10px 24px;
-  border: none;
-  border-radius: 99px;
-  font-weight: 600;
-}
-
-.previewSolutionBtn {
-  background-color: #f59e0b;
-  color: #451a03;
-  padding: 10px 24px;
-  border: none;
-  border-radius: 99px;
-  font-weight: 600;
 }
