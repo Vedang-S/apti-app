@@ -43,7 +43,7 @@ const topicData = {
 };
 
 const AddQuestion = () => {
-  const [formData, setFormData] = useState({
+  const initialState = {
     examId: "",
     yearAsked: "",
     topicId: "",
@@ -55,8 +55,9 @@ const AddQuestion = () => {
     optionD: "",
     correctAnswer: "A",
     solution: "",
-  });
+  };
 
+  const [formData, setFormData] = useState(initialState);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -74,13 +75,14 @@ const AddQuestion = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     const {
       data: { session },
     } = await supabase.auth.getSession();
     const token = session?.access_token;
 
     if (!token) {
-      alert("Not logged in!");
+      alert("Unauthorized: Please log in.");
       setLoading(false);
       return;
     }
@@ -92,20 +94,8 @@ const AddQuestion = () => {
           "Content-Type": "application/json",
         },
       });
-      alert(`Successfully added question!`);
-      setFormData({
-        examId: "",
-        yearAsked: "",
-        topicId: "",
-        subtopicId: "",
-        questionText: "",
-        optionA: "",
-        optionB: "",
-        optionC: "",
-        optionD: "",
-        correctAnswer: "A",
-        solution: "",
-      });
+      alert("Question published successfully!");
+      setFormData(initialState); // Resets form and preview
     } catch (err) {
       alert(err.response?.data?.message || "Failed to add question");
     } finally {
@@ -116,19 +106,14 @@ const AddQuestion = () => {
   return (
     <div className={styles.container}>
       <div className={styles.formSection}>
-        <header className={styles.header}>
-          <h2 className={styles.title}>
-            Add Question
-          </h2>
-        </header>
-
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.row}>
             <div className={styles.inputGroup}>
               <label>Exam ID</label>
               <input
                 name="examId"
-                placeholder="e.g. SSC, CAT"
+                value={formData.examId}
+                placeholder="e.g. CAT"
                 onChange={handleChange}
                 className={styles.input}
                 required
@@ -138,8 +123,9 @@ const AddQuestion = () => {
               <label>Year</label>
               <input
                 name="yearAsked"
+                value={formData.yearAsked}
                 type="number"
-                placeholder="Year"
+                placeholder="2024"
                 onChange={handleChange}
                 className={styles.input}
                 required
@@ -187,10 +173,11 @@ const AddQuestion = () => {
           </div>
 
           <div className={styles.inputGroup}>
-            <label>Question (LaTeX)</label>
+            <label>Question Body (LaTeX)</label>
             <textarea
               name="questionText"
-              placeholder="Add question text.."
+              value={formData.questionText}
+              placeholder="e.g. Find the value of x in x^2 + 2x + 1 = 0"
               onChange={handleChange}
               className={styles.textarea}
               required
@@ -203,6 +190,7 @@ const AddQuestion = () => {
                 <label>Option {opt}</label>
                 <input
                   name={`option${opt}`}
+                  value={formData[`option${opt}`]}
                   placeholder={`Value for ${opt}`}
                   onChange={handleChange}
                   className={styles.input}
@@ -213,9 +201,10 @@ const AddQuestion = () => {
           </div>
 
           <div className={styles.inputGroup}>
-            <label>Correct Answer</label>
+            <label>Correct Choice</label>
             <select
               name="correctAnswer"
+              value={formData.correctAnswer}
               onChange={handleChange}
               className={styles.input}
             >
@@ -228,28 +217,28 @@ const AddQuestion = () => {
           </div>
 
           <div className={styles.inputGroup}>
-            <label>Solution (LaTeX)</label>
+            <label>Solution Steps (LaTeX)</label>
             <textarea
               name="solution"
-              placeholder="Step by step solution..."
+              value={formData.solution}
+              placeholder="Explain..."
               onChange={handleChange}
               className={styles.textarea}
-              style={{ height: "120px" }}
+              style={{ height: "140px" }}
               required
             />
           </div>
 
           <button type="submit" className={styles.submitBtn} disabled={loading}>
-            {loading ? "Adding..." : "Add Question"}
+            {loading ? "Adding to Database..." : "Add Question"}
           </button>
         </form>
       </div>
 
-      {/* PREVIEW SECTION */}
+      {/* RIGHT: SLEEK PREVIEW */}
       <div className={styles.previewSection}>
         <h2 className={styles.previewTitle}>Live Rendering</h2>
         <div className={styles.paper}>
-          {/* Header Info */}
           <div className={styles.previewHeader}>
             <div className={styles.metaBadge}>
               <span className={styles.examTag}>
@@ -260,22 +249,18 @@ const AddQuestion = () => {
               </span>
             </div>
             <div className={styles.breadcrumb}>
-              {formData.topicId || "Topic"}
-              <span className={styles.separator}>/</span>
+              {formData.topicId || "Topic"}{" "}
+              <span className={styles.separator}>/</span>{" "}
               {formData.subtopicId || "Subtopic"}
             </div>
           </div>
 
-          {/* Content Area */}
           <div className={styles.previewBody}>
             <div className={styles.questionDisplay}>
               <span className={styles.qMarker}>Q.</span>
               <div className={styles.mathContent}>
                 <InlineMath
-                  math={
-                    formData.questionText ||
-                    "\\text{add question..}"
-                  }
+                  math={formData.questionText || "\\text{Add question text...}"}
                 />
               </div>
             </div>
@@ -291,21 +276,15 @@ const AddQuestion = () => {
               ))}
             </div>
 
-            {/* Solution Section */}
             <div className={styles.solutionSection}>
               <h4 className={styles.sectionDivider}>
                 <span>Detailed Solution</span>
               </h4>
               <div className={styles.solutionMath}>
-                <BlockMath
-                  math={
-                    formData.solution ||
-                    "\\text{explanation..}"
-                  }
-                />
+                <BlockMath math={formData.solution || "\\text{Solution..}"} />
               </div>
               <div className={styles.answerKey}>
-                Correct Choice: <strong>Option {formData.correctAnswer}</strong>
+                Solution: <strong>Option {formData.correctAnswer}</strong>
               </div>
             </div>
           </div>
