@@ -23,6 +23,8 @@ model User {
 model Question {
   id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   examId        String   @map("exam_id")
+  topicId       String   @map("topic_id")
+  subtopicId    String?  @map("subtopic_id")
   yearAsked     Int      @map("year_asked")
   questionText  String   @map("question_text") @db.Text
   optionA       String   @map("option_a")

@@ -8,10 +8,21 @@ import styles from "../styles/AddQuestion.module.css";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
+const topicData = {
+  "the basics": ["number system", "HCF and LCM", "simplification", "fractions and decimals"],
+  "commercial math": ["percentage", "profit loss", "discount", "simple and compound interest"],
+  "ratios and proportions": ["ratio & proportions", "partnership", "averages", "mixtures", "alligations"],
+  "time and motion": ["time and work", "pipes and cisterns", "speed and distance", "problems on train", "boats and streams"],
+  "advanced math": ["algebra (equations)", "geometry", "trigonometry", "mensurataion (2D / 3D)"],
+  "modern math": ["permutation and combination", "probability", "set theory"]
+};
+
 const AddQuestion = () => {
   const [formData, setFormData] = useState({
     examId: "",
     yearAsked: "",
+    topic: "",    
+    subtopic: "",   
     questionText: "",
     optionA: "",
     optionB: "",
@@ -23,10 +34,20 @@ const AddQuestion = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === "yearAsked" ? parseInt(value) || "" : value,
-    }));
+    
+    setFormData((prev) => {
+      const newState = {
+        ...prev,
+        [name]: name === "yearAsked" ? parseInt(value) || "" : value,
+      };
+
+      // Reset subtopic if topic changes
+      if (name === "topic") {
+        newState.subtopic = "";
+      }
+
+      return newState;
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -85,6 +106,42 @@ const AddQuestion = () => {
             />
           </div>
 
+          <div className={styles.row}>
+            <div style={{ flex: 1 }}>
+              <label className={styles.label}>Topic</label>
+              <select
+                name="topic"
+                value={formData.topic}
+                onChange={handleChange}
+                className={styles.input}
+                required
+              >
+                <option value="">Select Topic</option>
+                {Object.keys(topicData).map((t) => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
+              </select>
+            </div>
+
+            <div style={{ flex: 1 }}>
+              <label className={styles.label}>Subtopic</label>
+              <select
+                name="subtopic"
+                value={formData.subtopic}
+                onChange={handleChange}
+                className={styles.input}
+                disabled={!formData.topic}
+                required
+              >
+                <option value="">Select Subtopic</option>
+                {formData.topic &&
+                  topicData[formData.topic].map((st) => (
+                    <option key={st} value={st}>{st}</option>
+                  ))}
+              </select>
+            </div>
+          </div>
+
           <label className={styles.label}>Question Text (LaTeX)</label>
           <textarea
             name="questionText"
@@ -140,14 +197,18 @@ const AddQuestion = () => {
         <h2 className={styles.title}>Live Preview</h2>
         <div className={styles.paper}>
           <div className={styles.meta}>
-            <span>{formData.examId || "EXAM ID"}</span>
-            <span>{formData.yearAsked}</span>
+            <div>
+              <span>{formData.examId || "EXAM ID"}</span> | <span>{formData.yearAsked || "YEAR"}</span>
+            </div>
+            <div style={{ fontSize: "0.8rem", color: "#666", marginTop: "4px" }}>
+              {formData.topic} {formData.subtopic && `> ${formData.subtopic}`}
+            </div>
           </div>
 
           <div className={styles.previewContent}>
             <p>
               <strong>Q:</strong>{" "}
-              <InlineMath math={formData.questionText || ""} />
+              <InlineMath math={formData.questionText || " "} />
             </p>
 
             <div className={styles.previewOptions}>

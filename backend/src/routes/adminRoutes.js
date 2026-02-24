@@ -8,6 +8,8 @@ router.post("/addQuestion", authMiddleware, isAdmin, async (req, res) => {
   try {
     const {
       examId,
+      topicId,
+      subtopicId,
       yearAsked,
       questionText,
       optionA,
@@ -21,6 +23,8 @@ router.post("/addQuestion", authMiddleware, isAdmin, async (req, res) => {
     const question = await prisma.question.create({
       data: {
         examId,
+        topicId,
+        subtopicId,
         yearAsked: Number(yearAsked),
         questionText,
         optionA,
