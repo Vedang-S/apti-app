@@ -117,10 +117,9 @@ const AddQuestion = () => {
     <div className={styles.container}>
       <div className={styles.formSection}>
         <header className={styles.header}>
-          <h2 className={styles.title}>Question Editor</h2>
-          <p className={styles.subtitle}>
-            Enter the question details and LaTeX content below.
-          </p>
+          <h2 className={styles.title}>
+            Add <Question></Question>
+          </h2>
         </header>
 
         <form onSubmit={handleSubmit} className={styles.form}>
@@ -140,7 +139,7 @@ const AddQuestion = () => {
               <input
                 name="yearAsked"
                 type="number"
-                placeholder="2024"
+                placeholder="Year"
                 onChange={handleChange}
                 className={styles.input}
                 required
@@ -246,44 +245,67 @@ const AddQuestion = () => {
         </form>
       </div>
 
+      {/* PREVIEW SECTION */}
       <div className={styles.previewSection}>
-        <h2 className={styles.previewTitle}>Live Preview</h2>
+        <h2 className={styles.previewTitle}>Live Rendering</h2>
         <div className={styles.paper}>
-          <div className={styles.meta}>
-            <div className={styles.metaTop}>
-              <span className={styles.tag}>{formData.examId || "EXAM"}</span>
-              <span className={styles.year}>
+          {/* Header Info */}
+          <div className={styles.previewHeader}>
+            <div className={styles.metaBadge}>
+              <span className={styles.examTag}>
+                {formData.examId || "EXAM"}
+              </span>
+              <span className={styles.yearTag}>
                 {formData.yearAsked || "YYYY"}
               </span>
             </div>
             <div className={styles.breadcrumb}>
-              {formData.topicId || "Topic"} <span>/</span>{" "}
+              {formData.topicId || "Topic"}
+              <span className={styles.separator}>/</span>
               {formData.subtopicId || "Subtopic"}
             </div>
           </div>
 
+          {/* Content Area */}
           <div className={styles.previewBody}>
-            <div className={styles.questionText}>
-              <span className={styles.qLabel}>Q.</span>
-              <InlineMath
-                math={formData.questionText || "\\text{Waiting for input...}"}
-              />
+            <div className={styles.questionDisplay}>
+              <span className={styles.qMarker}>Q.</span>
+              <div className={styles.mathContent}>
+                <InlineMath
+                  math={
+                    formData.questionText ||
+                    "\\text{add question..}"
+                  }
+                />
+              </div>
             </div>
 
-            <div className={styles.previewOptions}>
+            <div className={styles.optionsContainer}>
               {["A", "B", "C", "D"].map((opt) => (
-                <div key={opt} className={styles.previewOption}>
-                  <span className={styles.optLetter}>{opt}</span>{" "}
-                  {formData[`option${opt}`] || "---"}
+                <div key={opt} className={styles.previewOptionCard}>
+                  <span className={styles.optionLetter}>{opt}</span>
+                  <span className={styles.optionText}>
+                    {formData[`option${opt}`] || "---"}
+                  </span>
                 </div>
               ))}
             </div>
 
-            <div className={styles.solutionBox}>
-              <h4 className={styles.solTitle}>Solution</h4>
-              <BlockMath math={formData.solution || "\\text{Solution...}"} />
-              <div className={styles.finalAnswer}>
-                Correct: <strong>{formData.correctAnswer}</strong>
+            {/* Solution Section */}
+            <div className={styles.solutionSection}>
+              <h4 className={styles.sectionDivider}>
+                <span>Detailed Solution</span>
+              </h4>
+              <div className={styles.solutionMath}>
+                <BlockMath
+                  math={
+                    formData.solution ||
+                    "\\text{explanation..}"
+                  }
+                />
+              </div>
+              <div className={styles.answerKey}>
+                Correct Choice: <strong>Option {formData.correctAnswer}</strong>
               </div>
             </div>
           </div>
