@@ -125,7 +125,7 @@ const AddQuestion = () => {
                 name="yearAsked"
                 value={formData.yearAsked}
                 type="number"
-                placeholder="2024"
+                placeholder="????"
                 onChange={handleChange}
                 className={styles.input}
                 required
@@ -173,11 +173,11 @@ const AddQuestion = () => {
           </div>
 
           <div className={styles.inputGroup}>
-            <label>Question Body (LaTeX)</label>
+            <label>Question Body</label>
             <textarea
               name="questionText"
               value={formData.questionText}
-              placeholder="e.g. Find the value of x in x^2 + 2x + 1 = 0"
+              placeholder="Add the question..."
               onChange={handleChange}
               className={styles.textarea}
               required
@@ -217,11 +217,11 @@ const AddQuestion = () => {
           </div>
 
           <div className={styles.inputGroup}>
-            <label>Solution Steps (LaTeX)</label>
+            <label>Solution Steps</label>
             <textarea
               name="solution"
               value={formData.solution}
-              placeholder="Explain..."
+              placeholder="Explain the solution..."
               onChange={handleChange}
               className={styles.textarea}
               style={{ height: "140px" }}
@@ -235,56 +235,64 @@ const AddQuestion = () => {
         </form>
       </div>
 
-      {/* RIGHT: SLEEK PREVIEW */}
+      {/* PREVIEW */}
       <div className={styles.previewSection}>
-        <h2 className={styles.previewTitle}>Live Rendering</h2>
-        <div className={styles.paper}>
-          <div className={styles.previewHeader}>
-            <div className={styles.metaBadge}>
-              <span className={styles.examTag}>
-                {formData.examId || "EXAM"}
-              </span>
-              <span className={styles.yearTag}>
-                {formData.yearAsked || "YYYY"}
-              </span>
+        <h2 className={styles.previewTitle}>Live Preview</h2>
+
+        <div className={styles.quizTestContainer}>
+          <div className={styles.quizHeader}>
+            <div className={styles.examSelector}>
+              <div className={styles.examDropdownPlaceholder}>
+                EXAM NAME / {formData.examId || ""}
+              </div>
             </div>
-            <div className={styles.breadcrumb}>
-              {formData.topicId || "Topic"}{" "}
-              <span className={styles.separator}>/</span>{" "}
-              {formData.subtopicId || "Subtopic"}
+            <div className={styles.timer}>
+              <span className={styles.timerIcon}>⏱</span>
+              <span className={styles.timerText}>Time: 00:00</span>
             </div>
           </div>
 
-          <div className={styles.previewBody}>
-            <div className={styles.questionDisplay}>
-              <span className={styles.qMarker}>Q.</span>
-              <div className={styles.mathContent}>
-                <InlineMath
-                  math={formData.questionText || "\\text{Add question text...}"}
-                />
+          <div className={styles.questionSection}>
+            <div className={styles.questionHeader}>
+              <div className={styles.questionLeft}>
+                <span className={styles.questionNumber}>Q.1</span>
+                <span className={styles.questionMainText}>
+                  <InlineMath
+                    math={formData.questionText || "\\ Add \\ question \\ text..."}
+                  />
+                </span>
               </div>
+              <span className={styles.questionYear}>
+                <em>[Year {formData.yearAsked || "????"}]</em>
+              </span>
+            </div>
+
+            <div className={styles.topicBreadcrumb}>
+              {formData.topicId || "Topic"} <span>{">"}</span>{" "}
+              {formData.subtopicId || "Subtopic"}
             </div>
 
             <div className={styles.optionsContainer}>
+              <p className={styles.optionsLabel}>Options:</p>
               {["A", "B", "C", "D"].map((opt) => (
-                <div key={opt} className={styles.previewOptionCard}>
-                  <span className={styles.optionLetter}>{opt}</span>
+                <label key={opt} className={styles.optionItem}>
+                  <input type="radio" name="preview-answer" disabled />
                   <span className={styles.optionText}>
-                    {formData[`option${opt}`] || "---"}
+                    {formData[`option${opt}`] || "--"}
                   </span>
-                </div>
+                </label>
               ))}
             </div>
 
-            <div className={styles.solutionSection}>
-              <h4 className={styles.sectionDivider}>
-                <span>Detailed Solution</span>
-              </h4>
-              <div className={styles.solutionMath}>
-                <BlockMath math={formData.solution || "\\text{Solution..}"} />
-              </div>
-              <div className={styles.answerKey}>
-                Solution: <strong>Option {formData.correctAnswer}</strong>
+            <div className={styles.solutionContainer}>
+              <p className={styles.solutionLabel}>Solution:</p>
+              <div className={styles.solutionText}>
+                <BlockMath
+                  math={formData.solution || "\\ Add \\ solution..."}
+                />
+                <p className={styles.correctIndicator}>
+                  <strong>Correct Answer: {formData.correctAnswer}</strong>
+                </p>
               </div>
             </div>
           </div>

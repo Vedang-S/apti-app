@@ -1,27 +1,26 @@
 .container {
   display: flex;
   min-height: 100vh;
-  background-color: #f8fafc;
-  gap: 3rem;
-  padding: 3rem;
-  font-family:
-    "Inter",
-    -apple-system,
-    system-ui,
-    sans-serif;
+  background-color: #f3f4f6;
+  gap: 2.5rem;
+  padding: 2.5rem;
+  font-family: "Inter", sans-serif;
+  align-items: flex-start; /* Prevents stretching items to match height */
 }
 
+/* LEFT SIDE: FORM EDITOR */
 .formSection {
-  flex: 1.1;
+  flex: 1;
   background: white;
   padding: 2.5rem;
   border-radius: 20px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  height: fit-content;
   max-width: 800px;
 }
 
 .header {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
   border-bottom: 1px solid #f1f5f9;
   padding-bottom: 1.5rem;
 }
@@ -44,6 +43,7 @@
   flex-direction: column;
   gap: 1.5rem;
 }
+
 .row {
   display: flex;
   gap: 1.5rem;
@@ -91,18 +91,18 @@
 .submitBtn {
   margin-top: 1rem;
   padding: 1rem;
-  background: #2563eb;
+  background: #000e2c;
   color: white;
   border: none;
   border-radius: 10px;
   font-weight: 700;
   font-size: 1rem;
-  cursor: pointer;
   transition: all 0.2s;
 }
 
 .submitBtn:hover:not(:disabled) {
-  background: #1d4ed8;
+  cursor: pointer;
+  background: #001a62;
   transform: translateY(-1px);
 }
 
@@ -111,16 +111,17 @@
   cursor: not-allowed;
 }
 
-/* PREVIEW SIDEBAR STYLING */
+/* RIGHT SIDE: PREVIEW SIDEBAR */
 .previewSection {
-  flex: 0.9;
+  flex: 1.2;
   position: sticky;
-  top: 3rem;
-  height: fit-content;
+  top: 2.5rem;
+  height: auto;
+  min-width: 0;  
 }
 
 .previewTitle {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 800;
   color: #94a3b8;
   text-transform: uppercase;
@@ -128,141 +129,157 @@
   margin-bottom: 1.5rem;
 }
 
-.paper {
-  background: #ffffff;
-  border-radius: 24px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
-  border: 1px solid #f1f5f9;
-  overflow: hidden;
-}
-
-.previewHeader {
-  background: #f8fafc;
-  padding: 1.5rem 2rem;
-  border-bottom: 1px solid #f1f5f9;
-}
-
-.metaBadge {
+/* QUIZ PREVIEW UI COMPONENTS */
+.quizHeader {
   display: flex;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  background-color: white;
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.examTag {
-  background: #1e293b;
-  color: white;
-  padding: 0.35rem 0.8rem;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 800;
+.examDropdownPlaceholder {
+  font-weight: 600;
+  color: #374151;
+  font-size: 14px;
 }
 
-.yearTag {
-  background: #e2e8f0;
-  color: #475569;
-  padding: 0.35rem 0.8rem;
-  border-radius: 6px;
-  font-size: 0.75rem;
+.timer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ef4444;
   font-weight: 700;
 }
 
-.breadcrumb {
-  font-size: 0.85rem;
-  color: #64748b;
-  font-weight: 600;
-}
-.separator {
-  margin: 0 0.5rem;
-  color: #cbd5e1;
-}
-
-.previewBody {
-  padding: 2rem;
-}
-
-.questionDisplay {
+.questionSection {
+  background-color: white;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  width: 100%;
   display: flex;
-  gap: 1rem;
-  font-size: 1.15rem;
-  line-height: 1.6;
-  color: #1e293b;
-  margin-bottom: 2rem;
+  flex-direction: column;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
-.qMarker {
-  color: #2563eb;
-  font-weight: 900;
-}
-
-.optionsContainer {
-  display: grid;
-  gap: 0.8rem;
-  margin-bottom: 2.5rem;
-}
-
-.previewOptionCard {
-  background: #f8fafc;
-  border: 1px solid #f1f5f9;
-  padding: 1.1rem;
-  border-radius: 14px;
+.questionHeader {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
 }
 
-.optionLetter {
-  background: white;
-  width: 32px;
-  height: 32px;
+.questionLeft {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.questionNumber {
   font-weight: 800;
-  color: #2563eb;
-  margin-right: 1.25rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  font-size: 20px;
+  color: #111827;
 }
 
-.optionText {
-  color: #334155;
+.topicBreadcrumb {
+  font-size: 13px;
+  color: #9ca3af;
+  margin-bottom: 20px;
   font-weight: 500;
 }
 
-.solutionSection {
-  margin-top: 3rem;
-  padding-top: 1rem;
-  border-top: 2px dashed #f1f5f9;
+.topicBreadcrumb span {
+  margin: 0 4px;
 }
 
-.sectionDivider {
-  width: 100%;
-  text-align: center;
-  border-bottom: 1px solid #f1f5f9;
-  line-height: 0.1em;
-  margin: 1.5rem 0;
+.optionsContainer {
+  margin-top: 24px;
+  margin-bottom: 32px;
 }
 
-.sectionDivider span {
-  background: #fff;
-  padding: 0 1rem;
-  color: #cbd5e1;
-  font-size: 0.75rem;
+.optionsLabel {
   font-weight: 700;
-  text-transform: uppercase;
+  margin-bottom: 12px;
+  color: #374151;
 }
 
-.solutionMath {
-  padding: 1rem 0;
-  color: #475569;
+.optionItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  margin-bottom: 8px;
+  border: 1px solid #f3f4f6;
+  border-radius: 12px;
+  transition: all 0.2s;
 }
 
-.answerKey {
-  margin-top: 1.5rem;
-  background: #ecfdf5;
-  color: #065f46;
-  padding: 1.25rem;
-  border-radius: 16px;
-  text-align: center;
+.optionItem:hover {
+  background-color: #f9fafb;
+}
+
+/* SOLUTION BLOCK */
+.solutionContainer {
+  margin-top: 24px;
+  margin-bottom: 24px;
+  padding: 20px;
+  background-color: #f2fff0;
+  border-radius: 12px;
+  border-left: 5px solid #3bf667;
+}
+
+.solutionLabel {
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #000000;
+}
+
+.solutionText {
+  color: #334155;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.solutionText, .questionMainText {
+  width: 100%;
+  overflow-x: auto; 
+  overflow-y: hidden;
+  padding-bottom: 5px;
+}
+
+.correctIndicator {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e2e8f0;
+  color: #059669;
   font-weight: 600;
-  border: 1px solid #dcfce7;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 12px;
+}
+
+/* BUTTONS IN PREVIEW */
+.previewSubmitBtn {
+  background-color: #3b82f6;
+  color: white;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 99px;
+  font-weight: 600;
+}
+
+.previewSolutionBtn {
+  background-color: #f59e0b;
+  color: #451a03;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 99px;
+  font-weight: 600;
 }
