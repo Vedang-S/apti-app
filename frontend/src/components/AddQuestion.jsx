@@ -13,6 +13,7 @@ const topicData = {
     "HCF and LCM",
     "simplification",
     "fractions and decimals",
+    "coding and decoding",
   ],
   "commercial math": [
     "percentage",
@@ -252,6 +253,11 @@ const AddQuestion = () => {
             </div>
           </div>
 
+          <div className={styles.topicBreadcrumb}>
+              {formData.topicId || "Topic"} <span>{">"}</span>{" "}
+              {formData.subtopicId || "Subtopic"}
+            </div>
+
           <div className={styles.questionSection}>
             <div className={styles.questionHeader}>
               <div className={styles.questionLeft}>
@@ -265,11 +271,6 @@ const AddQuestion = () => {
               <span className={styles.questionYear}>
                 <em>[Year {formData.yearAsked || "????"}]</em>
               </span>
-            </div>
-
-            <div className={styles.topicBreadcrumb}>
-              {formData.topicId || "Topic"} <span>{">"}</span>{" "}
-              {formData.subtopicId || "Subtopic"}
             </div>
 
             <div className={styles.optionsContainer}>
